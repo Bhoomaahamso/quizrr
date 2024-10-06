@@ -6,7 +6,7 @@ function Testimonials() {
         <div className="flex items-center">
             <h1 className="text-[42px] font-bold max-w-5xl"><span className="text-[#df4759]">Many questions</span> at JEE Main 2022 were <span className="text-[#df4759]">same/similar</span> to the ones asked in our test series.</h1>
         </div>
-        <div className="flex gap-8 ">
+        <div className="flex justify-between gap-8">
             <div className="py-[50vh]">
                 <h1 className="sticky top-[50%] text-[44px] font-bold max-w-80">Trusted by thousands of <span className="text-[#df4759]">students</span> & their <span className="text-[#df4759]">parents</span> across the nation</h1>
             </div>

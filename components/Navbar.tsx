@@ -31,7 +31,7 @@ function Navbar() {
   // border-bottom-right-radius: 50%;
   return (
          <div
-          className={`flex justify-center fixed top-0 w-full ${
+          className={`flex justify-center fixed top-0 w-full z-10 ${
             scrollPosition < 5 ? "bg-transparent" : "bg-white"
           }`}
         >

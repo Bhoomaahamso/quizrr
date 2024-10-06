@@ -1,3 +1,4 @@
+import Link from "next/link"
 import TestSeriesCard from "./TestSeriesCard"
 import { Badge } from "./ui/badge"
 
@@ -9,15 +10,19 @@ function TestSeries() {
             <h1 className="text-6xl font-bold">Our Test Series</h1>
         </div>
         <div className="grid grid-cols-3">
-            <TestSeriesCard />
-            <TestSeriesCard />
-            <TestSeriesCard />
-            <TestSeriesCard />
-            <TestSeriesCard />
-            <TestSeriesCard />
-            <TestSeriesCard />
-            <TestSeriesCard />
-            <TestSeriesCard />
+          <Link href={'/'}>
+            <TestSeriesCard avatar={'https://cdn.quizrr.in/web-assets/icons/exams/jee-main.png'} label={'October Batch'} title={'JEE Main 2025'} titleColor={'text-[#294bbb]'} labelColor={'text-[#df4759]'} borderColor={'border-t-[#df4759]'} labelBg={'bg-[rgb(223,71,89,0.1)]'}/>
+          </Link>
+          <Link href={'/'}>
+            <TestSeriesCard avatar={'https://cdn.quizrr.in/web-assets/icons/exams/jee-advanced.png'} label={'Just Launched'} title={'JEE Advanced 2025'} titleColor={'text-[#294bbb]'} labelColor={'text-[#42ba96]'} borderColor={'border-t-[#42ba96]'} labelBg={'bg-[rgba(66,186,150,0.1)]'}/>
+          </Link>
+            <TestSeriesCard avatar={'https://cdn.quizrr.in/web-assets/icons/exams/bitsat.png'} title={'BITSAT 2025'}/>
+            <TestSeriesCard avatar={'	https://cdn.quizrr.in/web-assets/icons/exams/viteee.png'} title={'VITEEE Manipal SRM 2025'}/>
+            <TestSeriesCard avatar={'	https://cdn-assets.getmarks.app/app_assets/img/exams/ic_content_exam_ap_eamcet.png'} title={'AP & TS EAMCET 2025'}/>
+            <TestSeriesCard avatar={'https://cdn.quizrr.in/web-assets/icons/exams/wbjee.png'} title={'WBJEE 2025'}/>
+            <TestSeriesCard avatar={'https://cdn.quizrr.in/web-assets/icons/exams/ugee.png'} title={'UGEE 2025'}/>
+            <TestSeriesCard avatar={'	https://cdn.quizrr.in/web-assets/icons/exams/comedk.png'} title={'COMEDK & KCET 2025'}/>
+            <TestSeriesCard avatar={'https://cdn.quizrr.in/web-assets/icons/exams/mht-cet.png'} title={'MHT CET 2025'}/>
         </div>
     </div>
   )
