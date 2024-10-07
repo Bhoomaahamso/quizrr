@@ -42,10 +42,10 @@ const frameworks = [
   },
 ]
 
-export function SelectArea({name, areas, key, setVal}) {
+export function SelectArea({name, areas, keyname, setVal}) {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
-console.log('cct',areas)
+console.log('cct', keyname, areas)
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -56,7 +56,8 @@ console.log('cct',areas)
           className="w-[200px] justify-between"
         >
           {value
-            ? areas.find((area) => area.value === value)?.label
+            // ? areas.find((area) => area[keyname] === value)?.keyname
+            ? value
             : `Select ${name}...`}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -69,20 +70,22 @@ console.log('cct',areas)
             <CommandGroup>
               {areas?.map((area) => (
                 <CommandItem
-                  key={area?.value}
-                  value={area.value}
+                  keyname={area?.[keyname]}
+                  value={area?.[keyname]}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue)
+                    setVal(currentValue)
                     setOpen(false)
                   }}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === area.value ? "opacity-100" : "opacity-0"
+                      value === area?.[keyname] ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {area.label}
+                  {area?.[keyname]}
+                  {/* {area?.country_name} */}
                 </CommandItem>
               ))}
             </CommandGroup>
