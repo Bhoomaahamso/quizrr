@@ -43,8 +43,7 @@ function OnboardCard() {
 
   const [val, setVal] = useState("");
 
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJ4aWxvbmE0MTAwQHJvd3BsYW50LmNvbSIsImFwaV90b2tlbiI6IlVTc1BfOGoySWRfTmRfVUpMZXl4U3hJcjdib3RNMENZWTh4anc0b2NDVkpzUGdMSlo4UEtRZnhhMFdZaV9meUhxYWcifSwiZXhwIjoxNzI4MzcxNzQ4fQ.kJ-LLVR4sg78Rkr89r3TDudTx8PvpEus2zuKuxvw1Dw";
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJ4aWxvbmE0MTAwQHJvd3BsYW50LmNvbSIsImFwaV90b2tlbiI6IlVTc1BfOGoySWRfTmRfVUpMZXl4U3hJcjdib3RNMENZWTh4anc0b2NDVkpzUGdMSlo4UEtRZnhhMFdZaV9meUhxYWcifSwiZXhwIjoxNzI4NDY5MTcwfQ.UchwJoO5jo0OID7-1691_q1U88Pyb87NmtaWL8p-XsQ"
   const email = "test@example.com";
   // /user/my-notes
   const [country, setCountry] = useState([]);
@@ -54,12 +53,12 @@ function OnboardCard() {
   const [userToken, setUserToken] = useState("");
 
   const userKeys = [
-    "display_name",
+    "displayname",
     "phone_no",
     "country",
     "state",
     "city",
-    "pin_code",
+    "pincode",
     "standard",
     "board",
   ];
@@ -146,47 +145,54 @@ function OnboardCard() {
       setUser(userVal); // Set the fetched country userVal
       console.log("USER ", userVal);
 
-      if (
-        userVal?.display_name === "" &&
-        window.location.href !== window.location.origin + "/onboarding?step=1"
-      ) {
-        // window.location.href = "/onboarding?step=1";
-      } else if (
-        userVal?.phone_no === "" &&
-        window.location.href !== window.location.origin + "/onboarding?step=2"
-      ) {
-        window.location.href = "/onboarding?step=2";
-      } else if (
-        userVal?.country === "" &&
-        window.location.href !== window.location.origin + "/onboarding?step=3"
-      ) {
-        window.location.href = "/onboarding?step=3";
-      } else if (
-        userVal?.state === "" &&
-        window.location.href !== window.location.origin + "/onboarding?step=4"
-      ) {
-        window.location.href = "/onboarding?step=4";
-      } else if (
-        userVal?.city === "" &&
-        window.location.href !== window.location.origin + "/onboarding?step=5"
-      ) {
-        window.location.href = "/onboarding?step=5";
-      } else if (
-        userVal?.pin_code === "" &&
-        window.location.href !== window.location.origin + "/onboarding?step=6"
-      ) {
-        window.location.href = "/onboarding?step=6";
-      } else if (
-        userVal?.standard === "" &&
-        window.location.href !== window.location.origin + "/onboarding?step=7"
-      ) {
-        window.location.href = "/onboarding?step=7";
-      } else if (
-        userVal?.board === "" &&
-        window.location.href !== window.location.origin + "/onboarding?step=8"
-      ) {
-        window.location.href = "/onboarding?step=8";
+      if(step ===4){
+        fetchState(userVal.country)
       }
+      if(step ===5){
+        fetchState(userVal.state)
+      }
+
+      // if (
+      //   userVal?.displayname === "" &&
+      //   window.location.href !== window.location.origin + "/onboarding?step=1" && step > 1
+      // ) {
+      //   // window.location.href = "/onboarding?step=1";
+      // } else if (
+      //   userVal?.phone_no === "" &&
+      //   window.location.href !== window.location.origin + "/onboarding?step=2" && step > 2
+      // ) {
+      //   window.location.href = "/onboarding?step=2";
+      // } else if (
+      //   userVal?.country === "" &&
+      //   window.location.href !== window.location.origin + "/onboarding?step=3" && step > 3
+      // ) {
+      //   window.location.href = "/onboarding?step=3";
+      // } else if (
+      //   userVal?.state === "" &&
+      //   window.location.href !== window.location.origin + "/onboarding?step=4" && step > 4
+      // ) {
+      //   window.location.href = "/onboarding?step=4";
+      // } else if (
+      //   userVal?.city === "" &&
+      //   window.location.href !== window.location.origin + "/onboarding?step=5" && step > 5
+      // ) {
+      //   window.location.href = "/onboarding?step=5";
+      // } else if (
+      //   userVal?.pincode === "" &&
+      //   window.location.href !== window.location.origin + "/onboarding?step=6" && step > 6
+      // ) {
+      //   window.location.href = "/onboarding?step=6";
+      // } else if (
+      //   userVal?.standard === "" &&
+      //   window.location.href !== window.location.origin + "/onboarding?step=7" && step > 7
+      // ) {
+      //   window.location.href = "/onboarding?step=7";
+      // } else if (
+      //   userVal?.board === "" &&
+      //   window.location.href !== window.location.origin + "/onboarding?step=8" && step > 8
+      // ) {
+      //   window.location.href = "/onboarding?step=8";
+      // }
       // return userData;
     } catch (error) {
       console.error("Error fetching Users:", error);
@@ -204,6 +210,7 @@ function OnboardCard() {
     }
     setUserToken(utoken);
     fetchCountry();
+   
     const user = fetchUser();
 
     //   {
@@ -334,7 +341,7 @@ function OnboardCard() {
     // }
     const data = new URLSearchParams();
     data.append(userKeys[step - 1], val);
-    console.log("av", data.toString(), { [userKeys[step - 1]]: val });
+    console.log("avvv", data.toString(), { [userKeys[step - 1]]: val });
 
     const userRes = await axios.patch(
       `http://localhost:3000/user/profile`,
@@ -351,10 +358,10 @@ function OnboardCard() {
 
     const user = userRes.data;
     setUser(user); // Set the fetched country user
-    console.log("USER ", user);
+    console.log("USERzzz ", user);
     console.log("val", val);
 
-    window.location.href = `/onboarding?step=${step + 1}`;
+    // window.location.href = `/onboarding?step=${step + 1}`;
   };
 
   // switch (step) {
