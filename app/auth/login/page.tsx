@@ -23,6 +23,7 @@ function page() {
 
   const handleSubmit = async () => {
     try {
+      console.log('login',mail,password);
       if (!mail || !regex.test(mail) || !password || password.length < 8) {
         toast({
           variant: "destructive",
@@ -34,8 +35,8 @@ function page() {
         return;
       }
       const userRes = await axios.post(`http://localhost:3000/user/login`, {
-        Email: mail,
-        Password: password,
+        email: mail,
+        password: password,
       });
 
       const user = userRes.data;

@@ -34,6 +34,70 @@ import { ScrollArea } from "./ui/scroll-area";
 import { SelectArea } from "./SelectArea";
 import { getHeapSpaceStatistics } from "v8";
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2t5QGdtYWlsLmNvbSIsImV4cCI6MTcyODU2MzgwMywiaWQiOjEsInVzZXJuYW1lIjoiTHVja3kgR295YWwifQ.2Gwz97zdrfTTi_4kpze8LTUxR3Y3zcj2SHRJLKaTwuM
+
+const boards = [
+  "Indian School Certificate (ISC)",
+  "Maharashtra State Board of Secondary and Higher Secondary Education (MSBSHSE)",
+  "West Bengal Board of Secondary Education (WBBSE)",
+  "Uttar Pradesh Madhyamik Shiksha Parishad (UPMSP)",
+  "Board of School Education, Haryana (HBSE)",
+  "Assam Higher Secondary Education Council (AHSEC)",
+  "Goa Board of Secondary and Higher Secondary Education (GBSHSE)",
+  "Himachal Pradesh Board of School Education (HPBOSE)",
+  "Central Board of Secondary Education (CBSE)",
+  "Gujarat Secondary Education Board (GSEB)",
+  "Kerala Board of Public Examinations (KBPE)",
+  "Telangana Board of Secondary Education(TBSE)",
+  "Mizoram Board of School Education (MBSE)",
+  "Bihar School Examination Board (BSEB)",
+  "Punjab School Education Board (PSEB)",
+  "Jharkhand Academic Council (JAC)",
+  "National Institute of Open Schooling (NIOS)",
+  "Karnataka Secondary Education Examination Board (KSEEB)",
+  "Tamil Nadu State Board (TNSB)",
+  "Chhatisgarh Board Of Secondary Education (CGBSE)",
+  "Council of Higher Secondary Education, Odisha (CHSE)",
+  "Andhra Pradesh Board of Education (APBSE)",
+  "Rajasthan Board of Secondary Education (RBSE)",
+  "Madhya Pradesh Board of Secondary Education (MPBSE)",
+  "Board of Secondary Education, Manipur (BSEM)",
+  "Meghalaya Board of School Education (MBOSE)",
+  "Jammu and Kashmir Board of School Education (JKBOSE)",
+  "Others",
+];
+
+const SelectStandard = ({ setVal }: { setVal: Function }) => {
+  const [select, setSelect] = useState();
+  return (
+    <div className="flex justify-center gap-4">
+      <Input
+        value={"Class 11"}
+        readOnly
+        className="hover:border-black "
+        onClick={(e) => setVal(e.target.value)}
+      />
+      <Input
+        value={"Class 12"}
+        readOnly
+        className="hover:border-black"
+        onClick={(e) => setVal(e.target.value)}
+      />
+      <Input
+        value={"First Time Dropper"}
+        readOnly
+        className="hover:border-black"
+        onClick={(e) => setVal(e.target.value)}
+      />
+      <Input
+        value={"Second Time Dropper"}
+        readOnly
+        className="hover:border-black"
+        onClick={(e) => setVal(e.target.value)}
+      />
+    </div>
+  );
+};
+
 function OnboardCard() {
   const router = useRouter();
   const params = useSearchParams();
@@ -43,14 +107,15 @@ function OnboardCard() {
 
   const [val, setVal] = useState("");
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJ4aWxvbmE0MTAwQHJvd3BsYW50LmNvbSIsImFwaV90b2tlbiI6IlVTc1BfOGoySWRfTmRfVUpMZXl4U3hJcjdib3RNMENZWTh4anc0b2NDVkpzUGdMSlo4UEtRZnhhMFdZaV9meUhxYWcifSwiZXhwIjoxNzI4NDY5MTcwfQ.UchwJoO5jo0OID7-1691_q1U88Pyb87NmtaWL8p-XsQ"
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJ4aWxvbmE0MTAwQHJvd3BsYW50LmNvbSIsImFwaV90b2tlbiI6IlVTc1BfOGoySWRfTmRfVUpMZXl4U3hJcjdib3RNMENZWTh4anc0b2NDVkpzUGdMSlo4UEtRZnhhMFdZaV9meUhxYWcifSwiZXhwIjoxNzI4NDY5MTcwfQ.UchwJoO5jo0OID7-1691_q1U88Pyb87NmtaWL8p-XsQ";
   const email = "test@example.com";
   // /user/my-notes
   const [country, setCountry] = useState([]);
   const [state, setState] = useState([]);
   const [city, setCity] = useState([]);
   const [user, setUser] = useState({});
-  const [userToken, setUserToken] = useState("");
+  // const [userToken, setUserToken] = useState("");
 
   const userKeys = [
     "displayname",
@@ -145,11 +210,15 @@ function OnboardCard() {
       setUser(userVal); // Set the fetched country userVal
       console.log("USER ", userVal);
 
-      if(step ===4){
-        fetchState(userVal.country)
+      if (step === 4) {
+        fetchState(
+          typeof userVal.country === "string"
+            ? userVal.country
+            : userVal.country.String
+        );
       }
-      if(step ===5){
-        fetchState(userVal.state)
+      if (step === 5) {
+        fetchCity(userVal.state);
       }
 
       // if (
@@ -205,12 +274,12 @@ function OnboardCard() {
   useEffect(() => {
     const utoken = localStorage.getItem("token");
     if (!utoken) {
-      router.push("/login");
+      router.push("/auth/login");
       return;
     }
-    setUserToken(utoken);
+    // setUserToken(utoken);
     fetchCountry();
-   
+
     const user = fetchUser();
 
     //   {
@@ -228,13 +297,13 @@ function OnboardCard() {
     // }
   }, []);
 
-  useEffect(() => {
-    if (user?.country) fetchState(user.country);
-  }, [user]);
+  // useEffect(() => {
+  //   if (user?.country) fetchState(user.country);
+  // }, [user]);
 
-  useEffect(() => {
-    if (user?.state) fetchCity(user.state);
-  }, [user]);
+  // useEffect(() => {
+  //   if (user?.state) fetchCity(user.state);
+  // }, [user]);
 
   const [selin, setSelin] = useState([
     {
@@ -305,12 +374,25 @@ function OnboardCard() {
     {
       title: "In which class are you currently in?",
       subtitle: "",
-      comp: () => "",
+      comp: () => <SelectStandard setVal={setVal} />,
     },
     {
       title: "Please select your Class 12th Board",
       subtitle: "",
-      comp: () => "",
+      comp: (setVal) => (
+        <Select onValueChange={setVal}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select Board" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {boards.map((board) => (
+                <SelectItem value={board}>{board}</SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      ),
     },
   ]);
 
@@ -319,18 +401,12 @@ function OnboardCard() {
       toast({
         variant: "destructive",
         title: "Value cannot be empty",
-
-        // description: "There was a problem with your request.",
       });
       return;
     }
     setStep(step + 1);
     console.log("vvvval", val, country, state, city);
-    if (step + 1 > 8) {
-      setStep(1);
-      router.push(`/onboarding?step=${1}`);
-      return;
-    }
+
     // if (step === 4) {
     //   fetchState(country);
     // }
@@ -339,14 +415,14 @@ function OnboardCard() {
     // }
     // if (step === 6) {
     // }
-    const data = new URLSearchParams();
-    data.append(userKeys[step - 1], val);
-    console.log("avvv", data.toString(), { [userKeys[step - 1]]: val });
-
+    // const data = new URLSearchParams();
+    // data.append(userKeys[step - 1], val);
+    // console.log("avvv", data.toString(), { [userKeys[step - 1]]: val });
+    const data = new URLSearchParams({ [userKeys[step - 1]]: val });
     const userRes = await axios.patch(
       `http://localhost:3000/user/profile`,
-      { [userKeys[step - 1]]: val },
-      // data,
+      // { [userKeys[step - 1]]: val },
+      data,
       // new URLSearchParams().append(userKeys[step-1], val),
       {
         headers: {
@@ -361,7 +437,21 @@ function OnboardCard() {
     console.log("USERzzz ", user);
     console.log("val", val);
 
-    // window.location.href = `/onboarding?step=${step + 1}`;
+    if (step + 1 > 8) {
+      await axios.patch(
+        `http://localhost:3000/user/profile`,
+        { onboarding: true },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      router.push(`/dashboard`);
+      return;
+    }
+
+    window.location.href = `/onboarding?step=${step + 1}`;
   };
 
   // switch (step) {
@@ -390,6 +480,8 @@ function OnboardCard() {
                   ? state
                   : step === 5
                   ? city
+                  : step === 8
+                  ? setVal
                   : undefined
               )}
           </>
